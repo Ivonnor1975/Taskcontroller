@@ -4,6 +4,6 @@
 
 The website is published at https://ivonnor1975.github.io/Taskcontroller/
 
-Built With HTML, CSS and Java Script and Jquery.
+Built With HTML, CSS, bootstrap, Java Script and Jquery.
 
 ©️2021 Ivonne, Inc Contribution Made with ❤️ by [Ivonne]
