@@ -1,6 +1,8 @@
 var dia=moment().format("dddd, MMMM Do YYYY");
 var hora=moment().format("h");
-var tasks = {};
+//var tasks = [{textname:'pickup xyz', hour: 9}, {textname:'Daniel Meeting', hour: 10}, {textname:'Banker Lunch', hour: 11}];
+var tasks= [];
+    
 
 
 var loadTasks=function(){
@@ -9,61 +11,63 @@ var loadTasks=function(){
         //Dispaly current day on web
         $("#currentDay").replaceWith(dia);
         tasks = JSON.parse(localStorage.getItem("tasks"));
-         // if nothing in localStorage, create a new object to track all task status arrays
+        // if nothing in localStorage, create a new object to track all task status arrays
         if (!tasks) {
-            tasks = [];
-              
+           tasks = [];
         };
         //loop over array to create task
-        $.each(tasks, function(){
-        //createTask(task.text, task.hour);
-        });
+        $.each(tasks, function(index,task){
+            createTask(task.textname, task.hour);
+         });
+         //save on local storage
+         saveTasks();  //may be not need it here since it is done only when loading page 
   };
-  var createTask = function(taskText, taskhour){
+  //Refresh screen when page load first time
+  var createTask = function(taskn, taskh){
+    //load task name  on the area for the var hour
+    $(("#task"+taskh)).val(taskn); 
+    //load intial and score to object
+    var taskDataObj = {
+        taskname: taskn,
+        taskhour: taskh,
+    };
+    // save task as an object with name, and hour then push it into tasks array    
+    tasks.push(taskDataObj);
+ };
 
-  };
+ var saveTasks = function() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+};
 
-  var editTask = function (taskId) {
+
+var editTask = function (taskId) {
     console.log(taskId);
-  
-    // get task list item element
-    var taskSelected = document.querySelector(
-      ".task-item[data-task-id='" + taskId + "']"
-    );
-  
-    // get content from task name and type
-    var taskName = taskSelected.querySelector("h3.task-name").textContent;
-    console.log(taskName);
-  
-    var taskType = taskSelected.querySelector("span.task-type").textContent;
-    console.log(taskType);
-  
-    // write values of taskName and taskType to form to be edited
-    document.querySelector("input[name='task-name']").value = taskName;
-    document.querySelector("select[name='task-type']").value = taskType;
-  
-    // set data attribute to the form with a value of the task's id so it knows which one is being edited
-    formEl.setAttribute("data-task-id", taskId);
-    // update form's button to reflect editing a task rather than creating a new one
-    formEl.querySelector("#save-task").textContent = "Save Task";
+    //tasks.sort(function(a, b){return a.hour - b.hour});
+    // get textarea element that was modified.
+    var taskDataObj = {
+        taskname: $(("#task"+taskId)).val(),
+        taskhour: parseInt(taskId)};
+    tasks.push(taskDataObj);
+    tasks.sort(function(a, b){return a.hour - b.hour});
+    saveTasks()
   };
 
-
+  //waiting to capture answer for save buttons
   var taskButtonHandler = function (event) {
     // get target element from event
     var targetEl = event.target;
-      if (targetEl.matches(".edit-btn")) {
-      console.log("edit", targetEl);
-      var taskId = targetEl.getAttribute("data-task-id");
+    if (targetEl.matches(".saveBtn")) {
+      console.log(targetEl);
+      var taskId = targetEl.id;
+      console.log(taskId);
       editTask(taskId);
     }
   };
-
-    
-var saveTasks = function() {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
- };
-
+ 
+var auditTask=function(){
+    var Currenthora=moment().format("h");
+    //compare hours with textarea id and add class past, present and future
+}
 
 // audit task past due hourly every 30 minutes
 setInterval(function() {
@@ -71,6 +75,9 @@ setInterval(function() {
       auditTask($(this));
     });
   }, 1800000);
+
   
+//Event listener
+  $("#target").click(taskButtonHandler);
  // load tasks for the first time
 loadTasks();
