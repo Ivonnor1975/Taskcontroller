@@ -1,32 +1,70 @@
-var getUserRepos = function() {
-  console.log("function was called");
+var tasks = {};
+
+var loadTasks = function() {
+  tasks = JSON.parse(localStorage.getItem("tasks"));
+  // if nothing in localStorage, create a new object to track all task status arrays
+  if (!tasks) {
+    tasks = {
+      toDo: [],
+    };
+  }
+  // loop over object properties
+  $.each(tasks, function(list, arr) {
+    console.log(list, arr);
+    // then loop over sub-array
+    arr.forEach(function(task) {
+      createTask(task.text, task.hour);
+    });
+  });
+};
+
+// task text was clicked
+$(".list-group").on("click", "p", function() {
+  // get current text of p element
+  var text = $(this)
+    .text()
+    .trim();
+
+  // replace p element with a new textarea
+  var textInput = $("<textarea>").addClass("form-control").val(text);
+  $(this).replaceWith(textInput);
+
+  // auto focus new element
+  textInput.trigger("focus");
+});
+
+// editable field was un-focused
+$(".list-group").on("blur", "textarea", function() {
+  // get current value of textarea
+  var text = $(this).val();
+
+  // get status type and position in the list
+  var status = $(this)
+    .closest(".list-group")
+    .attr("id")
+    .replace("list-", "");
+  var index = $(this)
+    .closest(".list-group-item")
+    .index();
+
+  // update task in array and re-save to localstorage
+  tasks[status][index].text = text;
+  saveTasks();
+
+  // recreate p element
+  var taskP = $("<p>")
+    .addClass("m-1")
+    .text(text);
+
+  // replace textarea with new content
+  $(this).replaceWith(taskP);
+});
+
+
+var saveTasks = function() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
 
-
-displaycalendar()
- if (repos.length === 0) {
-        repoContainerEl.textContent = "No task progam for today.";
-        return;
-    }
-// loop over repos
-for (var i = 0; i < repos.length; i++) {
-  // format repo name
-  var repoName = repos[i].owner.login + "/" + repos[i].name;
-
-  // create a container for each repo
-  var repoEl = document.createElement("div");
-  repoEl.classList = "list-item flex-row justify-space-between align-center";
-
-  // create a span element to hold repository name
-  var titleEl = document.createElement("span");
-  titleEl.textContent = repoName;
-
-  // append to container
-  repoEl.appendChild(titleEl);
-
-  // append container to the dom
-  repoContainerEl.appendChild(repoEl);
-}
-
-loadcalendar
+// load tasks for the first time
+loadTasks();

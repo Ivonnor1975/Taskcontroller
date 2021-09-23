@@ -4,6 +4,10 @@ body {
   line-height: 1;
 }
 
+ul.list-group {
+  min-height: 130px;
+}
+
 textarea{
   background: transparent;
   border: none;
