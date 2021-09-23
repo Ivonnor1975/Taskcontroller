@@ -68,3 +68,63 @@ var saveTasks = function() {
 
 // load tasks for the first time
 loadTasks();
+
+
+///other from brainquiz
+
+var saveScore=function(){
+  //load intial and score to object
+  var takerinitials = document.querySelector("input[name='initials']").value;
+  var takerDataObj = {
+      initiales: takerinitials.toUpperCase(),
+      grado: score,
+  };
+  // save taker as an object with initials, score properties then push it into takers array
+  takers.push(takerDataObj);
+  takers.sort(function(a, b){return b.grado - a.grado});
+  //save on local storage
+  localStorage.setItem("takers", JSON.stringify(takers));
+  
+};
+
+var saveScore=function(){
+  //load intial and score to object
+  var takerinitials = document.querySelector("input[name='initials']").value;
+  var takerDataObj = {
+      initiales: takerinitials.toUpperCase(),
+      grado: score,
+  };
+  // save taker as an object with initials, score properties then push it into takers array
+  takers.push(takerDataObj);
+  takers.sort(function(a, b){return b.grado - a.grado});
+  //save on local storage
+  localStorage.setItem("takers", JSON.stringify(takers));
+  
+};
+
+
+//waiting to capture answer for each quesion
+var taskButtonHandler = function(event){
+  // get target element from event what option was selected
+  var targetEl = event.target;
+  var taskId = targetEl.getAttribute("data-task-id");
+  if (taskId=== resp){
+      h4El.textContent = 'Your answer is Correct';
+      h4El.textContent;
+      score++;
+  }else{
+      h4El.textContent = 'Your answer is Wrong';
+      h4El.textContent;
+      timeleft-=10;
+  }
+  if (timeleft<0){
+      timeleft=0;
+  };
+ i++;
+ if(i < questions.length){
+      cleanbtns();
+      loadnextquestion(i); 
+ }else{ 
+      timeleft=0;
+  }
+};
