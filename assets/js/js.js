@@ -19,7 +19,9 @@ var loadTasks=function(){
         //createTask(task.text, task.hour);
         });
   };
+  var createTask = function(taskText, taskhour){
 
+  };
 
 
 var saveTasks = function() {
