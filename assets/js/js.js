@@ -1,55 +1,65 @@
-var dia=moment().format("dddd, MMMM Do YYYY");
-var hora=moment().format("h");
-//var tasks = [{textname:'pickup xyz', hour: 9}, {textname:'Daniel Meeting', hour: 10}, {textname:'Banker Lunch', hour: 11}];
-var tasks= [];
-    
-
+var dia=moment().format("dddd, MMMM Do YYYY");  //get the current date
+var hora=moment().format("HH"); //get the current hour 
+var tasks= []; 
 
 var loadTasks=function(){
         //get current date and format it
         var dia=moment().format("dddd, MMMM Do YYYY");
         //Dispaly current day on web
         $("#currentDay").replaceWith(dia);
-        tasks = JSON.parse(localStorage.getItem("tasks"));
-        // if nothing in localStorage, create a new object to track all task status arrays
-        if (!tasks) {
-           tasks = [];
-        };
-        //loop over array to create task
-        $.each(tasks, function(index,task){
-            createTask(task.textname, task.hour);
-         });
-         //save on local storage
-         saveTasks();  //may be not need it here since it is done only when loading page 
-  };
-  //Refresh screen when page load first time
-  var createTask = function(taskn, taskh){
-    //load task name  on the area for the var hour
-    $(("#task"+taskh)).val(taskn); 
-    //load intial and score to object
-    var taskDataObj = {
-        taskname: taskn,
-        taskhour: taskh,
-    };
-    // save task as an object with name, and hour then push it into tasks array    
-    tasks.push(taskDataObj);
- };
+                tasks = [];  //initialize array
+                // read from local storage
+                tasks = JSON.parse(localStorage.getItem("tasks"));
+                if (tasks) { //if a task is saved on local storage then         
+                //loop over array to recreate tasks on the webpage
+                        $.each(tasks, function(index,tasks){
+                        recreateTask(tasks.taskname, tasks.taskhour);
+                  });
+                };
 
+  };
+
+  //Refresh screen when page load first time
+  var recreateTask = function(taskn, taskh){
+    //load task name on the textarea for the block hour
+    $(("#task"+taskh)).val(taskn); //display the new value
+   };
+
+//save array to local storage
  var saveTasks = function() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
 
 var editTask = function (taskId) {
-    console.log(taskId);
-    //tasks.sort(function(a, b){return a.hour - b.hour});
     // get textarea element that was modified.
     var taskDataObj = {
         taskname: $(("#task"+taskId)).val(),
-        taskhour: parseInt(taskId)};
-    tasks.push(taskDataObj);
-    tasks.sort(function(a, b){return a.hour - b.hour});
-    saveTasks()
+        taskhour: parseInt(taskId)
+    };
+    if (!tasks){  //if it is first task that is going to be added 
+        tasks= [];
+        tasks.push(taskDataObj);
+        saveTasks();
+    }
+    else{
+        //search on array if hour already exist and replace on array with new data
+        var index = -1;
+        for(let y=0; y < tasks.length; y++){
+                if (tasks[y].taskhour===taskDataObj.taskhour){
+                    index=y;
+                };
+        };
+        if (index < 0){  //the task does not previously exist. adding new task
+            tasks.push(taskDataObj);
+            tasks.sort(function(a, b){return a.hour - b.hour});
+            saveTasks();
+        }
+        else{   //the task exist, update the array and save locally
+            tasks[index].taskname= taskDataObj.taskname;
+            saveTasks();
+        }
+    }
   };
 
   //waiting to capture answer for save buttons
@@ -57,27 +67,36 @@ var editTask = function (taskId) {
     // get target element from event
     var targetEl = event.target;
     if (targetEl.matches(".saveBtn")) {
-      console.log(targetEl);
       var taskId = targetEl.id;
-      console.log(taskId);
       editTask(taskId);
     }
   };
  
-var auditTask=function(){
-    var Currenthora=moment().format("h");
-    //compare hours with textarea id and add class past, present and future
-}
 
 // audit task past due hourly every 30 minutes
 setInterval(function() {
-    $(".card .list-group-item").each(function() {
-      auditTask($(this));
+     hora=parseInt(moment().format("HH"));
+     $(".saveBtn").each(function() {
+          var timeblockhour= parseInt(this.id);
+          console.log(timeblockhour);
+          if (timeblockhour < hora){
+               $("#d"+this.id).removeClass( "past present future" ).addClass("past");
+          }
+          else{
+          if (timeblockhour===hora){
+              $("#d"+this.id).removeClass( "past present future" ).addClass("present");
+          }
+          else{
+            if (timeblockhour > hora){
+               $("#d"+this.id).removeClass( "past present future" ).addClass("future");
+             }
+          }
+        }
     });
-  }, 1800000);
-
+}, 1800);
   
 //Event listener
-  $("#target").click(taskButtonHandler);
- // load tasks for the first time
+$("#target").click(taskButtonHandler);
+
+// load tasks for the first time
 loadTasks();
