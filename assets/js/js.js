@@ -5,6 +5,7 @@ var tasks= [];
 var loadTasks=function(){
         //get current date and format it
         var dia=moment().format("dddd, MMMM Do YYYY");
+        auditTask();
         //Dispaly current day on web
         $("#currentDay").replaceWith(dia);
                 tasks = [];  //initialize array
@@ -72,28 +73,33 @@ var editTask = function (taskId) {
     }
   };
  
+var auditTask = function(){
+        hora=parseInt(moment().format("HH"));
+        $(".saveBtn").each(function() {
+            var timeblockhour= parseInt(this.id);
+            console.log(timeblockhour);
+            if (timeblockhour < hora){
+                $("#d"+this.id).removeClass( "past present future" ).addClass("past");
+            }
+            else{
+            if (timeblockhour===hora){
+                $("#d"+this.id).removeClass( "past present future" ).addClass("present");
+            }
+            else{
+            if (timeblockhour > hora){
+                $("#d"+this.id).removeClass( "past present future" ).addClass("future");
+                }
+            }
+        }
+        });
+}
+
+
 
 // audit task past due hourly every 30 minutes
 setInterval(function() {
-     hora=parseInt(moment().format("HH"));
-     $(".saveBtn").each(function() {
-          var timeblockhour= parseInt(this.id);
-          console.log(timeblockhour);
-          if (timeblockhour < hora){
-               $("#d"+this.id).removeClass( "past present future" ).addClass("past");
-          }
-          else{
-          if (timeblockhour===hora){
-              $("#d"+this.id).removeClass( "past present future" ).addClass("present");
-          }
-          else{
-            if (timeblockhour > hora){
-               $("#d"+this.id).removeClass( "past present future" ).addClass("future");
-             }
-          }
-        }
-    });
-}, 1800);
+    auditTask();
+}, 1800000);
   
 //Event listener
 $("#target").click(taskButtonHandler);
