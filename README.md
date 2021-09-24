@@ -4,7 +4,7 @@ It is a simple calendar application that allows a user to save events for each h
 
 The starter code uses the Moment.js (Links to an external site.) A library to work with date and time.
 
-![image](https://user-images.githubusercontent.com/88918693/134701647-c4272b49-17b7-48b5-a182-6783936f12c1.png)
+![image](https://user-images.githubusercontent.com/88918693/134704710-7711510f-46ad-45ff-a37c-26857d0b99ca.png)
 
 # Instruction
 Type a task on the block of time. Make sure, you click on the button Save to store your task. 
