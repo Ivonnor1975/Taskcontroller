@@ -23,19 +23,21 @@
   </head>
 
   <body>
+    <!--Use bootstrap for header-->
     <header class="jumbotron">
       <h1 class="display-3">Work Day Scheduler</h1>
       <p class="lead">A simple calendar app for scheduling your work day</p>
       <p id="currentDay" class="lead"></p>
     </header>   
-    <div class="container-fluid" id="target">
+    <!--Display time block for calendar with bootstrap grid-->
+    <div class="container-fluid" id="target"> 
         <div class="row  align-items-start justify-content-center"> 
             <div class="col-2 hour" >9AM</div>
             <div class="col-6" id="d9">
                 <textarea id="task9"  name="task"></textarea>
             </div>
             <div class="col-2">
-              <input type="button" class="saveBtn" id="9" value="Save">
+                <button type="button" class="saveBtn" id="9">Save</i></button> 
             </div>               
         </div>
      <div class="row align-items-start justify-content-center"> 
@@ -44,7 +46,7 @@
               <textarea id="task10"  name="task"></textarea>
             </div>
             <div class="col-2">
-              <input type="button" class="saveBtn" id="10" value="Save">
+              <button type="button" class="saveBtn" id="10">Save</button>
             </div> 
           </div>
           <div class="row align-items-start justify-content-center"> 
@@ -53,7 +55,7 @@
               <textarea id="task11"  name="task"></textarea>  
             </div>
             <div class="col-2">
-              <input type="button" class="saveBtn" id="11" value="Save">
+              <button type="button" class="saveBtn" id="11">Save</i></button>
             </div> 
           </div>
           <div class="row align-items-start justify-content-center"> 
@@ -62,7 +64,7 @@
               <textarea id="task12"  name="task"></textarea>  
             </div>
             <div class="col-2">
-                <input type="button" class="saveBtn" id="12" value="Save">
+              <button type="button" class="saveBtn" id="12">Save</button>
             </div> 
           </div>
            <div class="row align-items-start justify-content-center"> 
@@ -71,7 +73,7 @@
               <textarea id="task13"  name="task"></textarea>  
             </div>
             <div class="col-2">
-              <input type="button" class="saveBtn" id="13" value="Save">
+              <button type="button" class="saveBtn" id="13">Save</button>
             </div> 
           </div>
           <div class="row align-items-start justify-content-center"> 
@@ -80,7 +82,7 @@
               <textarea id="task14"  name="task"></textarea>  
             </div>
             <div class="col-2">
-              <input type="button" class="saveBtn" id="14" value="Save">  
+              <button type="button" class="saveBtn" id="14">Save</button>  
             </div> 
           </div>
           <div class="row align-items-start justify-content-center"> 
@@ -89,7 +91,7 @@
               <textarea id="task15"  name="task"></textarea>  
             </div>
             <div class="col-2">
-              <input type="button" class="saveBtn" id="15" value="Save">
+              <button type="button" class="saveBtn" id="15">Save</button>
             </div> 
           </div>
           <div class="row align-items-start justify-content-center"> 
@@ -98,7 +100,7 @@
               <textarea id="task16"  name="task"></textarea>  
             </div>
             <div class="col-2">
-              <input type="button" class="saveBtn" id="16" value="Save">
+              <button type="button" class="saveBtn" id="16">Save</button>
             </div> 
           </div>
           <div class="row align-items-start justify-content-center"> 
@@ -107,11 +109,10 @@
               <textarea id="task17"  name="task"></textarea>  
             </div>
             <div class="col-2">
-              <input type="button" class="saveBtn" id="17" value="Save">
+              <button type="button" class="saveBtn" id="17">Save</button>
             </div> 
           </div>
      </div>
-      <!-- Timeblocks go here -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./assets/js/js.js"></script>

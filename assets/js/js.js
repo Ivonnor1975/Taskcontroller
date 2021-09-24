@@ -3,23 +3,17 @@ var hora=moment().format("HH"); //get the current hour
 var tasks= []; 
 
 var loadTasks=function(){
-        //get current date and format it
-        var dia=moment().format("dddd, MMMM Do YYYY");
         auditTask();
-        //Dispaly current day on web
-        $("#currentDay").replaceWith(dia);
-                tasks = [];  //initialize array
-                // read from local storage
-                tasks = JSON.parse(localStorage.getItem("tasks"));
-                if (tasks) { //if a task is saved on local storage then         
-                //loop over array to recreate tasks on the webpage
-                        $.each(tasks, function(index,tasks){
-                        recreateTask(tasks.taskname, tasks.taskhour);
-                  });
-                };
-
+        tasks = [];  //initialize array
+        // read from local storage
+        tasks = JSON.parse(localStorage.getItem("tasks"));
+        if (tasks) { //if a task is saved on local storage then         
+        //loop over array to recreate tasks on the webpage
+              $.each(tasks, function(index,tasks){
+              recreateTask(tasks.taskname, tasks.taskhour);
+              });
+        };
   };
-
   //Refresh screen when page load first time
   var recreateTask = function(taskn, taskh){
     //load task name on the textarea for the block hour
@@ -53,7 +47,7 @@ var editTask = function (taskId) {
         };
         if (index < 0){  //the task does not previously exist. adding new task
             tasks.push(taskDataObj);
-            tasks.sort(function(a, b){return a.hour - b.hour});
+            tasks.sort(function(a, b){return a.taskhour - b.taskhour});
             saveTasks();
         }
         else{   //the task exist, update the array and save locally
@@ -72,12 +66,17 @@ var editTask = function (taskId) {
       editTask(taskId);
     }
   };
- 
+ // set background to each task base on current hour (past, present or future)
 var auditTask = function(){
+        //get current date and format it    
+        var dia=moment().format("dddd, MMMM Do YYYY");
+        //Dispaly current day on web
+        $("#currentDay").replaceWith(dia);
+        //capture current hour
         hora=parseInt(moment().format("HH"));
+        //loop to each button to apply color to areatext based on current hour time
         $(".saveBtn").each(function() {
             var timeblockhour= parseInt(this.id);
-            console.log(timeblockhour);
             if (timeblockhour < hora){
                 $("#d"+this.id).removeClass( "past present future" ).addClass("past");
             }
@@ -94,9 +93,7 @@ var auditTask = function(){
         });
 }
 
-
-
-// audit task past due hourly every 30 minutes
+// run audit task past due hourly every 30 minutes
 setInterval(function() {
     auditTask();
 }, 1800000);
