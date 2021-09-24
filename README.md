@@ -8,7 +8,7 @@ The starter code uses the Moment.js (Links to an external site.) A library to wo
 
 # Instruction
 Type a task on the block of time. Make sure, you click on the button Save to store your task. 
-Click anywhere inside the button, avoid clicking the icon itself. The icon won't responde to save the task. 
+Click anywhere inside the button, avoiding to click the icon save itself. The icon won't responde to save the task. 
 
 
 The website is published at https://ivonnor1975.github.io/Taskcontroller/
